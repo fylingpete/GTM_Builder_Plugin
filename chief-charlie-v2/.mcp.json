@@ -2,7 +2,7 @@
   "mcpServers": {
     "chief-charlie": {
       "type": "http",
-      "url": "https://api.chiefcharlie.ai/mcp"
+      "url": "https://api.chiefcharlie.ai/mcp/"
     }
   }
 }
