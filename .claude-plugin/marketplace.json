@@ -5,9 +5,9 @@
   },
   "plugins": [
     {
-      "name": "chief-charlie",
+      "name": "chief-charlie-v2",
       "displayName": "Chief Charlie — Founder OS",
-      "source": "./chief-charlie",
+      "source": "./chief-charlie-v2",
       "description": "Founder OS as a Claude Cowork plugin. Guides founders through PMF, GTM, and Scale phases with a single source of truth (dashboard_data.json), weekly/monthly/quarterly cadences, decision logging, and curated knowledge (Skok, Hormozi, YC, Wickman EOS™)."
     }
   ]

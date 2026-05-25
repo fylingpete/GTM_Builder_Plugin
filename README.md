@@ -10,8 +10,8 @@ This repository is a **marketplace** containing one plugin:
 
 ```
 GMT_Builder_Plugin/
-├── .claude-plugin/marketplace.json    # Lists the chief-charlie plugin
-└── chief-charlie/                     # The plugin itself
+├── .claude-plugin/marketplace.json    # Lists the chief-charlie-v2 plugin
+└── chief-charlie-v2/                  # The plugin itself
     ├── .claude-plugin/plugin.json
     ├── .mcp.json                      # Add MCP servers here (start empty)
     ├── CLAUDE.md                      # Lean persona + security rules
@@ -28,13 +28,13 @@ GMT_Builder_Plugin/
 1. Open Claude Cowork → click **Customize** in the left sidebar
 2. Click **Add plugin** → select **GitHub**
 3. Enter: `fylingpete/GMT_Builder_Plugin`
-4. Install the `chief-charlie` plugin
+4. Install the `chief-charlie-v2` plugin
 
 ### From Claude Code (CLI)
 
 ```bash
 /plugin marketplace add fylingpete/GMT_Builder_Plugin
-/plugin install chief-charlie@gmt-builder
+/plugin install chief-charlie-v2@gmt-builder
 /reload-plugins
 ```
 
@@ -162,7 +162,7 @@ Token is stored at `~/.chief-charlie/auth.json` with `chmod 600`. The SessionSta
 
 ## Add connectors (MCPs)
 
-`chief-charlie/.mcp.json` starts empty. Add MCP servers there to give Charlie access to your tools (Notion, Linear, Slack, HubSpot, Gmail, ...). For Cowork-compatible MCPs, the server must be reachable over the public internet OR run locally on the user's machine.
+`chief-charlie-v2/.mcp.json` starts empty. Add MCP servers there to give Charlie access to your tools (Notion, Linear, Slack, HubSpot, Gmail, ...). For Cowork-compatible MCPs, the server must be reachable over the public internet OR run locally on the user's machine.
 
 Examples to add later:
 
