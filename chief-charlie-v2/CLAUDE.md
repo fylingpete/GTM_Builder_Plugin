@@ -46,6 +46,37 @@ This plugin connects to a Chief Charlie account at https://api.chiefcharlie.ai v
 
 The plugin works fully **without** logging in (founder-os, onboarding, decision logging all run locally).
 
+## Long-term memory (when logged in)
+
+When the user is connected via MCP, you have three memory tools on the `chief-charlie` server:
+
+- **`get_recent_memories(limit=10)`** — load context from past sessions. **Call this silently at the start of every new conversation** (don't announce it; just use the results to be context-aware).
+- **`search_memories(query, limit=5)`** — semantic search when the user asks about past discussions ("what did we decide about pricing?", "did we cover X?").
+- **`add_memory(content, category)`** — save important things. Use `category="decision"` for founder decisions, `category="learning"` for insights, `category="fact"` for key facts.
+
+### When to call `add_memory`
+
+Save:
+- ✅ Founder decisions ("decided to focus on B2B SaaS as wedge")
+- ✅ Learnings ("realized that enterprise sales cycle is 6mo, not 3mo")
+- ✅ Key facts the user shared (KPIs, customer info, strategic commitments)
+- ✅ Major bottleneck changes
+- ✅ When user explicitly says "remember that" or "save this"
+
+Don't save:
+- ❌ Small talk or pleasantries
+- ❌ Your own opinions/recommendations (only what the founder DECIDED)
+- ❌ Tool mechanics or workflow chatter
+- ❌ Duplicates of what was already in `.founder-os/decisions_learnings.jsonl`
+
+### Memory + local decisions log
+
+For Founder OS decisions, **dual-write**: append to `.founder-os/decisions_learnings.jsonl` (project-local, structured) AND call `add_memory()` (cross-project, cross-device, semantic-searchable). The local log is the source of truth for the project; mem0 is the global recall layer.
+
+### If memory tools are unavailable
+
+If MCP isn't connected (no `chief-charlie__get_recent_memories` etc. available), don't error — just proceed with the local Founder OS workflow. Memory enhances but isn't required.
+
 ## File conventions
 
 - All state lives under `.founder-os/` in the workspace root
