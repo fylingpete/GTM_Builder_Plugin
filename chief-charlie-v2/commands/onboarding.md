@@ -16,7 +16,7 @@ pwd && ls -la
 
 Then check:
 
-1. **Is `.founder-os/dashboard_data.json` already present?**
+1. **Is `01_command_center/dashboards/dashboard_data.json` already present?**
    - **Yes →** Onboarding has already been run. Tell the user that, show them the current path/phase from the dashboard, and offer `/founder-os` instead. Stop this command.
    - **No →** Continue to step 2.
 
@@ -39,11 +39,7 @@ Then check:
 
    Wait for the user to confirm they're in a new folder, then re-run the `pwd` check before continuing.
 
-3. **Folder looks fine →** Initialize the workspace skeleton:
-
-```bash
-mkdir -p .founder-os/templates research deliverables knowledge decisions roadmaps kpis
-```
+3. **Folder looks fine →** Hand off to the `founder-os` skill. The skill writes the workspace skeleton itself (`00_configuration/`, `01_command_center/dashboards/`, `01_command_center/logs/`) via `copy_skill_files` + `file_edit` during the onboarding flow. Do NOT pre-create folders here — the skill is authoritative.
 
 ## Phase 1+ — Founder OS onboarding
 
@@ -60,19 +56,31 @@ Hand off to the `founder-os` skill. Specifically:
 By the end of `/onboarding`, these files must exist in the workspace:
 
 ```
-.founder-os/
-├── dashboard_data.json          # primary state (business_profile, path_state, currentPhase, kpis, ...)
-├── roadmap_data.json            # per-step rich content (lazy-loaded but seeded at onboarding)
-├── decisions_learnings.jsonl    # append-only decision/learning log (empty after onboarding)
-└── templates/                   # deliverable stubs copied from the skill
-CLAUDE.md                        # workspace identity block — stable founder info (see below)
+00_configuration/
+├── founder_harness.md           # personalized harness rules (same content also embedded in CLAUDE.md)
+└── schema.md                    # data-file reference
+
+01_command_center/
+├── index.md                     # snapshot + quick links
+├── dashboards/
+│   ├── dashboard_data.json      # primary state (business_profile, path_state, currentPhase, kpis, ...)
+│   ├── roadmap_data.json        # per-step rich content (lazy-loaded but seeded at onboarding)
+│   ├── roadmap.json             # canvas pill — Roadmap
+│   ├── home.json                # canvas pill — Home
+│   ├── projects.json            # canvas pill — Projekte
+│   ├── tasks.json               # canvas pill — Tasks
+│   └── kpis.json                # canvas pill — KPIs
+└── logs/
+    └── decisions_learnings.jsonl   # append-only decision/learning log (empty after onboarding)
+
+CLAUDE.md                        # workspace identity block + embedded founder_harness content
 ```
 
 Plus `onboarding_completed_at` set to the current ISO timestamp in `dashboard_data.path_state`.
 
 ### Workspace `CLAUDE.md` — write/update at the very end of onboarding
 
-After all `.founder-os/` state is written, create or update `CLAUDE.md` in the workspace root with a Chief-Charlie identity block. Keep it **minimal and stable** — dynamic state (current phase, KPIs, bottleneck, cadence dates) belongs in `dashboard_data.json`, NOT here.
+After all state files are written, create or update `CLAUDE.md` in the workspace root with a Chief-Charlie identity block **plus the inlined content of `00_configuration/founder_harness.md`**. Keep the identity block minimal and stable — dynamic state (current phase, KPIs, bottleneck, cadence dates) belongs in `dashboard_data.json`, NOT here. The harness section duplicates `founder_harness.md` verbatim so the agent always picks up the harness rules from `CLAUDE.md` (which is auto-loaded) without having to read a second file.
 
 **If `CLAUDE.md` does not exist:** create it with exactly this content (filled in from the onboarding answers):
 
@@ -86,15 +94,20 @@ After all `.founder-os/` state is written, create or update `CLAUDE.md` in the w
 - **Starting path:** {pmf|gtm|scale}
 - **Preferred language:** {german|english|...}
 
-For current phase, KPIs, bottleneck, and cadence state, read `.founder-os/dashboard_data.json` (the SessionStart hook loads this automatically).
+For current phase, KPIs, bottleneck, and cadence state, read `01_command_center/dashboards/dashboard_data.json` (the SessionStart hook loads this automatically).
+
+---
+
+<!-- inlined from 00_configuration/founder_harness.md — keep in sync -->
+{{FOUNDER_HARNESS_CONTENT}}
 <!-- chief-charlie:end -->
 ```
+
+Replace `{{FOUNDER_HARNESS_CONTENT}}` with the full personalized body of `00_configuration/founder_harness.md` (everything below the H1 — drop the auto-generated header line). When `founder_harness.md` is updated later, also re-sync this block.
 
 **If `CLAUDE.md` already exists:**
 - If it contains a `<!-- chief-charlie:start -->` … `<!-- chief-charlie:end -->` block → replace **only that block** with the freshly-generated one above. Leave everything outside the markers (other plugins' blocks, user notes) untouched.
 - If it has no such block → append the block (with one blank line of separation) to the end of the file. Never overwrite the whole file.
-
-Do NOT update this `CLAUDE.md` later (e.g., on phase transitions or weekly check-ins). The block is intentionally stable — the dashboard is the live source of truth.
 
 ## Hand-off
 

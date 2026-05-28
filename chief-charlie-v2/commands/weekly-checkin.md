@@ -6,7 +6,7 @@ description: Run the weekly check-in for the user's current Founder OS path. Rev
 
 Run the weekly check-in. The exact workflow depends on the current path.
 
-1. Read `.founder-os/dashboard_data.json` → `current_path`.
+1. Read `01_command_center/dashboards/dashboard_data.json` → `current_path`.
 
 2. Load and follow the canonical workflow:
    - **PMF:** `skills/founder-os/paths/pmf/operations/weekly-checkin.md`
@@ -17,13 +17,13 @@ Run the weekly check-in. The exact workflow depends on the current path.
    - **KPI review** — pull each row from `kpis.rows[]`, ask the user for current values, update the file
    - **Bottleneck** — confirm or change the current bottleneck
    - **Wins / losses** — at least 1 of each
-   - **Decisions made this week** — append each one to `decisions_learnings.jsonl` with the schema from the master SKILL.md
-   - **Learnings** — same: append to `decisions_learnings.jsonl`
+   - **Decisions made this week** — append each one to `01_command_center/logs/decisions_learnings.jsonl` with the schema from the master SKILL.md
+   - **Learnings** — same: append to `01_command_center/logs/decisions_learnings.jsonl`
    - **Next One Thing** — the single most important thing for next week
 
 4. After completion:
    - Update `path_state.cadences.next_checkin_due` to today + 7 days
-   - Append a summary row to `paths/{current_path}/templates/weekly_checkin_log.template.jsonl` (or the path-specific log)
+   - Append a summary row to `01_command_center/logs/weekly_checkin_log.jsonl` (using the schema from `paths/{current_path}/templates/weekly_checkin_log.template.jsonl`)
    - Save the file
    - Confirm to the user that the check-in is logged
 

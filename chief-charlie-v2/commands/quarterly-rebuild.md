@@ -6,7 +6,7 @@ description: Run the quarterly rebuild. Strategic pivot assessment, KPI target a
 
 The heaviest cadence — a real "stop and rebuild" session, not a check-in.
 
-1. Read `.founder-os/dashboard_data.json` → `current_path`.
+1. Read `01_command_center/dashboards/dashboard_data.json` → `current_path`.
 
 2. Load and follow the canonical workflow:
    - **PMF:** `skills/founder-os/paths/pmf/operations/quarterly-rebuild.md`
@@ -23,8 +23,8 @@ The heaviest cadence — a real "stop and rebuild" session, not a check-in.
 
 4. After completion:
    - Update `path_state.cadences.next_quarterly_due` to today + 90 days
-   - Append a row to `quarterly_rebuild_log.template.jsonl`
-   - In Scale 3.2+: log each Rock™ to `rocks_completion_log.template.jsonl` with binary scoring at quarter end
+   - Append a row to `01_command_center/logs/quarterly_rebuild_log.jsonl`
+   - In Scale 3.2+: log each Rock™ to `01_command_center/logs/rocks_completion_log.jsonl` with binary scoring at quarter end
    - If a phase transition is warranted, surface the recommendation but require explicit user confirmation
 
 5. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), persist the rebuild:

@@ -1,6 +1,6 @@
 ---
 name: kpi-tracking
-description: Read, update, and reason about KPIs stored in .founder-os/dashboard_data.json. Use when the user mentions a metric, when running a check-in, or when comparing current vs. target values.
+description: Read, update, and reason about KPIs stored in 01_command_center/dashboards/dashboard_data.json. Use when the user mentions a metric, when running a check-in, or when comparing current vs. target values.
 ---
 
 # kpi-tracking
@@ -9,7 +9,7 @@ You manage the KPI rows in `dashboard_data.json` → `kpis.rows[]`. This skill h
 
 ## Data shape
 
-`.founder-os/dashboard_data.json` has a `data.kpis.rows[]` array (or `kpis.rows[]` depending on version). Each row:
+`01_command_center/dashboards/dashboard_data.json` has a `data.kpis.rows[]` array (or `kpis.rows[]` depending on version). Each row:
 
 ```json
 {
@@ -26,7 +26,7 @@ Never write `label` / `value` fields — the UI ignores those. Always use `metri
 
 ## Updating a KPI
 
-1. **Read the dashboard:** `Read .founder-os/dashboard_data.json`
+1. **Read the dashboard:** `Read 01_command_center/dashboards/dashboard_data.json`
 2. **Find the row** matching the metric the user mentioned. Be lenient on naming ("MRR" matches "Monthly Recurring Revenue").
 3. **Update `current`** with the new value. Keep the user's unit string ("4,200 EUR", "47 customers", "12%").
 4. **Recompute `status`:**
@@ -60,4 +60,4 @@ Always show delta — bare numbers without targets are useless.
 
 ## Trend tracking
 
-For trends over time, use the path-specific log files (e.g., `weekly_checkin_log.template.jsonl`). The dashboard is only a snapshot — it does NOT store history. If the user asks "how has MRR moved?", grep the weekly check-in log.
+For trends over time, use the runtime log files in `01_command_center/logs/` (e.g., `weekly_checkin_log.jsonl`). The dashboard is only a snapshot — it does NOT store history. If the user asks "how has MRR moved?", grep the weekly check-in log.

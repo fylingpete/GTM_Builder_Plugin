@@ -6,7 +6,7 @@ description: Run the monthly review for the user's Founder OS path. Path-milesto
 
 Monthly review — heavier than the weekly check-in. Available for GTM and Scale paths (PMF uses weekly + quarterly only).
 
-1. Read `.founder-os/dashboard_data.json` → `current_path`. If `current_path == "pmf"`, tell the user there is no monthly review in PMF — offer `/weekly-checkin` or `/quarterly-rebuild` instead.
+1. Read `01_command_center/dashboards/dashboard_data.json` → `current_path`. If `current_path == "pmf"`, tell the user there is no monthly review in PMF — offer `/weekly-checkin` or `/quarterly-rebuild` instead.
 
 2. Load and follow the canonical workflow:
    - **GTM:** `skills/founder-os/paths/gtm/operations/monthly-review.md`
@@ -15,14 +15,14 @@ Monthly review — heavier than the weekly check-in. Available for GTM and Scale
 3. Standard sections to cover:
    - **Path milestone progress** — distance to next phase transition
    - **KPI trend** — vs. last month, not just current value
-   - **Decision log audit** — read the last 30 days of `decisions_learnings.jsonl`. Which decisions worked? Which need reversing? (Look for `reverse_if:` conditions.)
+   - **Decision log audit** — read the last 30 days of `01_command_center/logs/decisions_learnings.jsonl`. Which decisions worked? Which need reversing? (Look for `reverse_if:` conditions.)
    - **Learning consolidation** — group learnings by category, identify patterns
-   - **Cross-step KPIs (Scale only)** — refresh Rule of 40, NDR, LH-Score; append to `cross_kpi_log.template.jsonl`
+   - **Cross-step KPIs (Scale only)** — refresh Rule of 40, NDR, LH-Score; append to `01_command_center/logs/cross_kpi_log.jsonl`
    - **Next month's focus** — 1–3 priorities
 
 4. After completion:
    - Update `path_state.cadences.next_monthly_due` to today + 30 days
-   - Append a row to `monthly_review_log.template.jsonl`
+   - Append a row to `01_command_center/logs/monthly_review_log.jsonl`
    - If a phase transition is warranted, mention it but do NOT auto-trigger — phase changes require explicit user confirmation via `/founder-os`
 
 5. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), persist the review:

@@ -137,8 +137,8 @@ Write them BEFORE any pills, and BEFORE any `file_edit`s.
 
 ```
 copy_skill_files(files=[
-  {"source":"project/founder-os/templates/roadmap_data.seed.json",                        "target":"01_Command_Center/Dashboards/roadmap_data.json"},
-  {"source":"project/founder-os/paths/<current_path>/templates/dashboard_data.seed.json", "target":"01_Command_Center/Dashboards/dashboard_data.json"}
+  {"source":"project/founder-os/templates/roadmap_data.seed.json",                        "target":"01_command_center/dashboards/roadmap_data.json"},
+  {"source":"project/founder-os/paths/<current_path>/templates/dashboard_data.seed.json", "target":"01_command_center/dashboards/dashboard_data.json"}
 ])
 ```
 
@@ -151,7 +151,7 @@ exist yet — the canvas shows nothing new. That's intentional.
 ### Step B-early — Personalize the data files BEFORE writing any pills
 
 Run all of these `file_edit`s on
-`01_Command_Center/Dashboards/dashboard_data.json` BEFORE Step A2.
+`01_command_center/dashboards/dashboard_data.json` BEFORE Step A2.
 Small `file_edit`s are reliable; large ones have failed in the past.
 
 **Group 1 — business_profile (Q1-Q4 only):**
@@ -218,11 +218,11 @@ data is already personalized on disk.
 
 ```
 copy_skill_files(files=[
-  {"source":"project/founder-os/templates/workspace_skeleton/dashboards/roadmap.json",    "target":"01_Command_Center/Dashboards/roadmap.json"},
-  {"source":"project/founder-os/templates/workspace_skeleton/dashboards/home.json",       "target":"01_Command_Center/Dashboards/home.json"},
-  {"source":"project/founder-os/templates/workspace_skeleton/dashboards/projects.json",   "target":"01_Command_Center/Dashboards/projects.json"},
-  {"source":"project/founder-os/templates/workspace_skeleton/dashboards/tasks.json",      "target":"01_Command_Center/Dashboards/tasks.json"},
-  {"source":"project/founder-os/templates/workspace_skeleton/dashboards/kpis.json",       "target":"01_Command_Center/Dashboards/kpis.json"}
+  {"source":"project/founder-os/templates/workspace_skeleton/01_command_center/dashboards/roadmap.json",    "target":"01_command_center/dashboards/roadmap.json"},
+  {"source":"project/founder-os/templates/workspace_skeleton/01_command_center/dashboards/home.json",       "target":"01_command_center/dashboards/home.json"},
+  {"source":"project/founder-os/templates/workspace_skeleton/01_command_center/dashboards/projects.json",   "target":"01_command_center/dashboards/projects.json"},
+  {"source":"project/founder-os/templates/workspace_skeleton/01_command_center/dashboards/tasks.json",      "target":"01_command_center/dashboards/tasks.json"},
+  {"source":"project/founder-os/templates/workspace_skeleton/01_command_center/dashboards/kpis.json",       "target":"01_command_center/dashboards/kpis.json"}
 ])
 ```
 
@@ -246,7 +246,7 @@ based on.
 **Step C.1 — Read the active step's content from the roadmap data file.**
 
 Use the `file_read` tool to load
-`01_Command_Center/Dashboards/roadmap_data.json`. The active step ID
+`01_command_center/dashboards/roadmap_data.json`. The active step ID
 is the `currentSubphase` you set in Step B-early Group 2 (e.g. `"1.1"`,
 `"1.3"`, `"1.4"`, or `"1.5"` for PMF, or the path-specific default for
 GTM/Scale). From `roadmap_data.json`, pull `steps["<currentSubphase>"]`
@@ -307,7 +307,7 @@ Then continue with Q5.
 
 After the user has answered Q5 and Q6 (continue from Step C → Q5 → Q6),
 write the remaining user-specific fields. Small `file_edit`s on
-`01_Command_Center/Dashboards/dashboard_data.json`:
+`01_command_center/dashboards/dashboard_data.json`:
 
 **Group 4 — business_profile (Q5 fields):**
 
@@ -325,7 +325,7 @@ extractable, `"revenue_today": null`, `"team_size_today": null`,
 `bottleneck` as null — those are Q7/Q8.
 
 **Q5/Q6 fields you just wrote are reused later in:**
-- The personalized markdown file (Step D — `@FOUNDER_HARNESS.md`) —
+- The personalized markdown file (Step D — `00_configuration/founder_harness.md`, also inlined into `CLAUDE.md`) —
   pulls `product_description`, `customer_description`,
   `status_one_liner` into the canonical text.
 - PMF Auto-Fill (`paths/pmf/templates/auto_fill_recipe.md`) — uses
@@ -337,34 +337,43 @@ extractable, `"revenue_today": null`, `"team_size_today": null`,
 Do NOT discard these fields after onboarding. They are immutable
 profile data unless the user explicitly changes them.
 
-### Step D — Customize 3 markdown files via `file_write` (any time after Q8)
+### Step D — Customize 3 markdown files + inline harness into CLAUDE.md (any time after Q8)
 
 These files reflect the user's profile and are written ONCE during
 onboarding. Defer them until the post-Q8 stretch (after auto-fill, before
 closing) so the wow-moment after Q4 is not delayed by extra writes:
 
-- `00_Configuration/@FOUNDER_HARNESS.md`
-- `00_Configuration/@SCHEMA.md`
-- `01_Command_Center/@INDEX.md`
+- `00_configuration/founder_harness.md`
+- `00_configuration/schema.md`
+- `01_command_center/index.md`
 
 Read each from `project/founder-os/templates/workspace_skeleton/<path>` for the
 canonical structure, then personalize via `file_write` using the data
 already in `dashboard_data.json`. Specifically:
 
-- `@FOUNDER_HARNESS.md` — reference the user's
+- `founder_harness.md` — reference the user's
   `business_profile.elevator_pitch` and `bottleneck.title` so the
   harness rules feel specific to this founder.
-- `@SCHEMA.md`, `@INDEX.md` — use canonical structure
+- `schema.md`, `index.md` — use canonical structure
   but adapt examples/placeholders to the user's domain
   (`business_profile.industry`, `business_profile.build_type`).
 
 NEVER write generic boilerplate — every file must visibly reflect what
 the user told you in Q1-Q8.
 
+**Then inline the harness into the workspace `CLAUDE.md`.** The workspace
+`CLAUDE.md` carries the Chief-Charlie identity block AND a verbatim copy
+of `founder_harness.md` so the agent picks up the harness rules from
+`CLAUDE.md` automatically — without having to read a second file. Follow
+the exact template + block-replacement rules in
+`commands/onboarding.md` § "Workspace `CLAUDE.md`". If a later step
+updates `founder_harness.md`, re-sync the inlined block in `CLAUDE.md` in
+the same edit.
+
 ## Q7 + Q8 — Refinement Questions
 
 Continue with the universal questions. Each answer is a single
-`file_edit` on `01_Command_Center/Dashboards/dashboard_data.json`.
+`file_edit` on `01_command_center/dashboards/dashboard_data.json`.
 
 | Q | Store path | Type |
 |---|---|---|
@@ -923,7 +932,7 @@ B) Da gibt's was zum Anpassen — willst du am Plan, an den Projekten
 
 ### Step 3: Finalize
 
-In a single `file_edit` on `01_Command_Center/Dashboards/dashboard_data.json`:
+In a single `file_edit` on `01_command_center/dashboards/dashboard_data.json`:
 
 - `data.path_state.onboarding_completed_at` ← current ISO timestamp
 - `data.path_state.current_step` ← `"operating"`
@@ -1013,7 +1022,7 @@ Same logic as PMF Closing-Flow Step 2 — Plan / Projekte / Aufgaben:
 
 ### Step 3: Finalize
 
-In a single `file_edit` on `01_Command_Center/Dashboards/dashboard_data.json`:
+In a single `file_edit` on `01_command_center/dashboards/dashboard_data.json`:
 
 - `data.path_state.onboarding_completed_at` ← current ISO timestamp
 - `data.path_state.current_step` ← `"operating"`
@@ -1027,7 +1036,7 @@ nächsten Check-In ({path_state.cadences.next_checkin_due})."
 For the Scale path, sub-onboarding is still a placeholder. No auto-fill
 recipe exists yet.
 
-In a single `file_edit` on `01_Command_Center/Dashboards/dashboard_data.json`:
+In a single `file_edit` on `01_command_center/dashboards/dashboard_data.json`:
 
 - `data.path_state.onboarding_completed_at` ← current ISO timestamp
 - `data.path_state.current_step` ← `"operating"`

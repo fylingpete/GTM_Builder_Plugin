@@ -310,8 +310,9 @@ Read `dashboard_data.json` →
 `path_state.cadences.quarterly_rebuild.next_due`. Confirm the next
 Monthly (first Monday of next month) and next Quarterly (first Monday
 of next quarter) dates are present and correct. Also mirror these to
-`@FOUNDER_HARNESS.md` → Recurring Sessions section. Update via
-`file_edit` if stale.
+`00_configuration/founder_harness.md` → Recurring Sessions section,
+and re-sync the same block in workspace-root `CLAUDE.md` (the harness is
+inlined there). Update via `file_edit` if stale.
 
 **Step 4 — Append to the quarterly file.** Add a `## Part 5 — Next
 Quarter OKR & Dates` section documenting the new target, the
@@ -350,8 +351,9 @@ Possible results per reminder:
 
 **Step 3 — Update state.** Update `dashboard_data.json` →
 `path_state.reminders.last_verified: {today}` and update any changed
-reminder IDs. Mirror schedule changes to `@FOUNDER_HARNESS.md` →
-Recurring Sessions section if needed.
+reminder IDs. Mirror schedule changes to
+`00_configuration/founder_harness.md` → Recurring Sessions section, and
+re-sync the same block in workspace-root `CLAUDE.md` if needed.
 
 **Step 4 — Append to the quarterly file.** Add a `## Part 6 —
 Reminder Verification` section with a one-line-per-reminder status

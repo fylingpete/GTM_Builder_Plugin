@@ -1,5 +1,5 @@
 ---
-description: Append a decision to .founder-os/decisions_learnings.jsonl. Use this when the user makes a strategic decision outside a check-in.
+description: Append a decision to 01_command_center/logs/decisions_learnings.jsonl. Use this when the user makes a strategic decision outside a check-in.
 argument-hint: [decision description]
 ---
 
@@ -16,7 +16,7 @@ Append a decision entry to the append-only decision log.
    - **reasoning** — why this option over alternatives (1–2 sentences)
    - **reverse_if** — what would cause you to reverse this decision (1 sentence)
 
-3. Read `.founder-os/dashboard_data.json` → `current_path` to fill the `path` field.
+3. Read `01_command_center/dashboards/dashboard_data.json` → `current_path` to fill the `path` field.
 
 4. Construct the JSON line:
 
@@ -24,10 +24,11 @@ Append a decision entry to the append-only decision log.
 {"type":"decision","date":"YYYY-MM-DD","path":"pmf|gtm|scale","decision":"...","reasoning":"...","reverse_if":"..."}
 ```
 
-5. Append (do NOT overwrite) to `.founder-os/decisions_learnings.jsonl`:
+5. Append (do NOT overwrite) to `01_command_center/logs/decisions_learnings.jsonl`:
 
 ```bash
-echo '{"type":"decision","date":"...","path":"...","decision":"...","reasoning":"...","reverse_if":"..."}' >> .founder-os/decisions_learnings.jsonl
+mkdir -p 01_command_center/logs
+echo '{"type":"decision","date":"...","path":"...","decision":"...","reasoning":"...","reverse_if":"..."}' >> 01_command_center/logs/decisions_learnings.jsonl
 ```
 
 6. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), call:

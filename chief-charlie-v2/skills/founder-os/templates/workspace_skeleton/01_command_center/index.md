@@ -13,9 +13,10 @@
 
 ## Quick Links
 
-- Founder Harness → `../00_Configuration/@FOUNDER_HARNESS.md`
-- Schema → `../00_Configuration/@SCHEMA.md`
-- Dashboard data → `dashboard_data.json`
+- Founder Harness → `../00_configuration/founder_harness.md`
+- Schema → `../00_configuration/schema.md`
+- Dashboard data → `dashboards/dashboard_data.json`
+- Decision log → `logs/decisions_learnings.jsonl`
 
 ## Refresh
 

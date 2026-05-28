@@ -20,9 +20,10 @@ You search the user's Chief Charlie workspace for relevant prior content. This i
 1. **Start broad with Glob** to map the territory:
 
 ```
-Glob: **/*{topic}*.md           # filenames containing the topic
-Glob: .founder-os/**/*           # all state files
-Glob: deliverables/**/*.md       # all deliverables
+Glob: **/*{topic}*.md                       # filenames containing the topic
+Glob: 01_command_center/**/*                # all state files (dashboards + logs)
+Glob: 00_configuration/**/*                 # founder_harness + schema
+Glob: 01_command_center/dashboards/**/*.json  # all dashboard JSON
 ```
 
 2. **Then Grep for content**:
@@ -37,7 +38,7 @@ Use case-insensitive search (`-i`) and multiple keyword variants (English + Germ
 3. **For the decision/learning log** — it's JSONL, one entry per line:
 
 ```
-Grep "{keyword}" path:.founder-os/decisions_learnings.jsonl
+Grep "{keyword}" path:01_command_center/logs/decisions_learnings.jsonl
 ```
 
 4. **For dated work** (recent first):
@@ -60,7 +61,7 @@ Glob: **/*.md  (then sort by date in filename if present)
 **Found in 3 files:**
 
 1. **`decisions/2026-03-pricing.md`** — "Wir gehen auf 49€/Monat statt 99€, weil ..."
-2. **`.founder-os/decisions_learnings.jsonl`** (line 47) — `{"type":"decision","date":"2026-03-14","decision":"..."}`
+2. **`01_command_center/logs/decisions_learnings.jsonl`** (line 47) — `{"type":"decision","date":"2026-03-14","decision":"..."}`
 3. **`deliverables/icp-doc.md`** § "Pricing context" — "Self-serve buyers anchor at ..."
 
 **Synthesis:** {one sentence pulling them together}

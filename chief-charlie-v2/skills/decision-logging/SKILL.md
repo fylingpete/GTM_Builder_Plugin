@@ -1,6 +1,6 @@
 ---
 name: decision-logging
-description: Detect when the user makes a strategic decision or shares a learning in normal conversation, and append it to .founder-os/decisions_learnings.jsonl automatically. Use during every founder conversation — this is non-negotiable per the Founder OS SKILL.md rules.
+description: Detect when the user makes a strategic decision or shares a learning in normal conversation, and append it to 01_command_center/logs/decisions_learnings.jsonl automatically. Use during every founder conversation — this is non-negotiable per the Founder OS SKILL.md rules.
 ---
 
 # decision-logging
@@ -42,10 +42,11 @@ Listen for any of these — the user doesn't have to call `/log-decision` explic
 
 2. **Construct the JSON entry** using the schemas from `skills/founder-os/SKILL.md` — copy them verbatim, don't invent fields.
 
-3. **Append** to `.founder-os/decisions_learnings.jsonl`:
+3. **Append** to `01_command_center/logs/decisions_learnings.jsonl` (create the `01_command_center/logs/` directory first if it doesn't exist):
 
 ```bash
-echo '{...}' >> .founder-os/decisions_learnings.jsonl
+mkdir -p 01_command_center/logs
+echo '{...}' >> 01_command_center/logs/decisions_learnings.jsonl
 ```
 
 Never read-and-rewrite the whole file — it's append-only.

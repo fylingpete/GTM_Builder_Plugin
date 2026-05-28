@@ -1,5 +1,5 @@
 ---
-description: Append a learning (insight, observation, killed hypothesis) to .founder-os/decisions_learnings.jsonl.
+description: Append a learning (insight, observation, killed hypothesis) to 01_command_center/logs/decisions_learnings.jsonl.
 argument-hint: [learning description]
 ---
 
@@ -21,7 +21,7 @@ Append a learning entry to the append-only decision/learning log.
    - If the user **discarded a hypothesis** (e.g., "we were wrong about X, the real thing is Y") → use the `hypothesis_discarded` schema
    - Otherwise → use the standard `learning` schema
 
-4. Read `.founder-os/dashboard_data.json` → `current_path` for the `path` field.
+4. Read `01_command_center/dashboards/dashboard_data.json` → `current_path` for the `path` field.
 
 5. Construct the JSON line. Schemas:
 
@@ -33,7 +33,7 @@ Append a learning entry to the append-only decision/learning log.
 {"type":"hypothesis_discarded","date":"YYYY-MM-DD","path":"...","hypothesis":"...","reason":"...","replaced_by":"..."}
 ```
 
-6. Append to `.founder-os/decisions_learnings.jsonl` (one line, no pretty-printing).
+6. Append to `01_command_center/logs/decisions_learnings.jsonl` (one line, no pretty-printing). Create the `01_command_center/logs/` directory first if it doesn't exist.
 
 7. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), call:
 
@@ -55,4 +55,4 @@ Append a learning entry to the append-only decision/learning log.
 
 8. Confirm and offer:
 
-   > Learning logged. Möchtest du es als eigenes Markdown-File ausbauen (`decisions/learning-{date}-{slug}.md`)?
+   > Learning logged. Möchtest du es als eigenes Markdown-File ausbauen (`01_command_center/learnings/learning-{date}-{slug}.md`)?
