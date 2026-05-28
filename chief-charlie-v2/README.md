@@ -9,8 +9,8 @@ The Chief Charlie plugin turns Claude into a Founder Operating System. See the [
 | Commands | `/onboarding`, `/founder-os`, `/weekly-checkin`, `/monthly-review`, `/quarterly-rebuild`, `/log-decision`, `/log-learning` |
 | Skills | `founder-os` (master), `memory-search`, `decision-logging`, `kpi-tracking` |
 | Agents | `research`, `market-report` |
-| Hooks | `SessionStart` — injects current dashboard snapshot |
-| MCP | empty by default — add your own connectors in `.mcp.json` |
+| Hooks | `SessionStart` — injects current dashboard snapshot · `UserPromptSubmit` — context refresh · `PostToolUse` (Write/Edit) — auto-sync workspace files to chiefcharlie |
+| MCP | `chief-charlie` HTTP server at `https://api.chiefcharlie.ai/mcp/` (memory + workspace + WhatsApp tools) |
 
 ## How it works
 
@@ -38,6 +38,23 @@ After `/onboarding`:
 ├── roadmaps/                      # phase-specific roadmaps
 └── knowledge/                     # curated knowledge notes
 ```
+
+## File Sync (v0.6.0+)
+
+The `PostToolUse` hook automatically syncs every Write/Edit in your workspace to chiefcharlie so:
+
+- The WhatsApp heartbeat picks up your latest `dashboard_data.json` within seconds
+- A second device (Electron app, web) sees the changes
+- Embeddings stay fresh for `search_workspace_files`
+
+**First time in a workspace,** ask the assistant to run setup. It will call the `init_workspace` MCP tool and write two files into `<workspace>/.chiefcharlie/`:
+
+- `auth.json` — your per-workspace device token (chmod 600)
+- `project.json` — the project this workspace maps to
+
+Both should be in your `.gitignore` — the assistant adds the entry for you when the workspace is a git repo.
+
+**Per-workspace tokens** are individually revocable: a leaked or unused workspace token can be revoked in your account settings on chiefcharlie.app without affecting any other workspace.
 
 ## Customizing
 
