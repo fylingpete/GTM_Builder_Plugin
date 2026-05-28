@@ -65,9 +65,36 @@ By the end of `/onboarding`, these files must exist in the workspace:
 ├── roadmap_data.json            # per-step rich content (lazy-loaded but seeded at onboarding)
 ├── decisions_learnings.jsonl    # append-only decision/learning log (empty after onboarding)
 └── templates/                   # deliverable stubs copied from the skill
+CLAUDE.md                        # workspace identity block — stable founder info (see below)
 ```
 
 Plus `onboarding_completed_at` set to the current ISO timestamp in `dashboard_data.path_state`.
+
+### Workspace `CLAUDE.md` — write/update at the very end of onboarding
+
+After all `.founder-os/` state is written, create or update `CLAUDE.md` in the workspace root with a Chief-Charlie identity block. Keep it **minimal and stable** — dynamic state (current phase, KPIs, bottleneck, cadence dates) belongs in `dashboard_data.json`, NOT here.
+
+**If `CLAUDE.md` does not exist:** create it with exactly this content (filled in from the onboarding answers):
+
+```markdown
+<!-- chief-charlie:start -->
+# Chief Charlie — Workspace Notes
+
+- **Founder:** {founder_name}
+- **Company:** {company_name}
+- **Onboarded:** {today_iso_date}
+- **Starting path:** {pmf|gtm|scale}
+- **Preferred language:** {german|english|...}
+
+For current phase, KPIs, bottleneck, and cadence state, read `.founder-os/dashboard_data.json` (the SessionStart hook loads this automatically).
+<!-- chief-charlie:end -->
+```
+
+**If `CLAUDE.md` already exists:**
+- If it contains a `<!-- chief-charlie:start -->` … `<!-- chief-charlie:end -->` block → replace **only that block** with the freshly-generated one above. Leave everything outside the markers (other plugins' blocks, user notes) untouched.
+- If it has no such block → append the block (with one blank line of separation) to the end of the file. Never overwrite the whole file.
+
+Do NOT update this `CLAUDE.md` later (e.g., on phase transitions or weekly check-ins). The block is intentionally stable — the dashboard is the live source of truth.
 
 ## Hand-off
 

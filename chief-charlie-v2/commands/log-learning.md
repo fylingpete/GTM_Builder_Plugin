@@ -35,6 +35,24 @@ Append a learning entry to the append-only decision/learning log.
 
 6. Append to `.founder-os/decisions_learnings.jsonl` (one line, no pretty-printing).
 
-7. Confirm and offer:
+7. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), call:
+
+   ```
+   # Standard learning
+   add_memory(
+     content="Learning ({path}, {date}, {category}): {insight}. Source: {source}. Action: {action}.",
+     category="learning"
+   )
+
+   # Hypothesis discarded
+   add_memory(
+     content="Hypothesis discarded ({path}, {date}): {hypothesis}. Reason: {reason}. Replaced by: {replaced_by}.",
+     category="learning"
+   )
+   ```
+
+   If the tools are unavailable (user not logged in via MCP), skip silently — the local JSONL is still the source of truth.
+
+8. Confirm and offer:
 
    > Learning logged. Möchtest du es als eigenes Markdown-File ausbauen (`decisions/learning-{date}-{slug}.md`)?

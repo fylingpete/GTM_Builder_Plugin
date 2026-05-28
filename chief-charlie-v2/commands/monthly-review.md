@@ -24,3 +24,13 @@ Monthly review — heavier than the weekly check-in. Available for GTM and Scale
    - Update `path_state.cadences.next_monthly_due` to today + 30 days
    - Append a row to `monthly_review_log.template.jsonl`
    - If a phase transition is warranted, mention it but do NOT auto-trigger — phase changes require explicit user confirmation via `/founder-os`
+
+5. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), persist the review:
+
+   - For **each decision being reversed** (from the decision-log audit) → `add_memory(content="Reversed decision ({path}, {date}): {original_decision}. Reason: {why_reversed}.", category="decision")`
+   - For **each pattern surfaced** in learning consolidation → `add_memory(content="Pattern ({path}, {date}, {category}): {pattern_summary}.", category="learning")`
+   - For **each KPI with a notable trend** (significant up/down vs. last month) → `add_memory(content="KPI trend ({path}, {date}): {kpi_name} {last_month_value} → {this_month_value}.", category="fact")`
+   - For **next month's 1–3 priorities** → `add_memory(content="Next month priorities ({path}, {date}): {priorities_list}.", category="decision")`
+   - One **summary** memory → `add_memory(content="Monthly review {date} ({path}): {one_paragraph_summary}.", category="fact")`
+
+   Skip silently if MCP isn't connected. Do NOT duplicate-write items already pushed via `/log-decision` or `/log-learning` during the same conversation.

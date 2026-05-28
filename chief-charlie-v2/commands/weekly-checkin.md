@@ -27,4 +27,14 @@ Run the weekly check-in. The exact workflow depends on the current path.
    - Save the file
    - Confirm to the user that the check-in is logged
 
-5. If the user is in Scale phase 3.2+, follow the **L10™ structure**: Segue → Scorecard™ → Rock™ Review → Customer/Employee Headlines → To-Do List → IDS (Identify, Discuss, Solve) → Conclude.
+5. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), persist the check-in to mem0:
+
+   - For **each** decision captured in step 3 → `add_memory(content="Decision ({path}, {date}): ...", category="decision")`
+   - For **each** learning captured in step 3 → `add_memory(content="Learning ({path}, {date}): ...", category="learning")`
+   - If the **bottleneck changed** → `add_memory(content="Bottleneck change ({path}, {date}): from {old} to {new}.", category="fact")`
+   - For the **Next One Thing** → `add_memory(content="Next One Thing (week of {date}, {path}): {next_one_thing}.", category="decision")`
+   - One **summary** memory → `add_memory(content="Weekly check-in {date} ({path}): KPIs {kpi_summary}. Top win: {win}. Top loss: {loss}.", category="fact")`
+
+   Skip silently if MCP isn't connected — the local JSONL + dashboard remain source of truth. Do NOT duplicate-write items the user already pushed via `/log-decision` or `/log-learning` during the same conversation.
+
+6. If the user is in Scale phase 3.2+, follow the **L10™ structure**: Segue → Scorecard™ → Rock™ Review → Customer/Employee Headlines → To-Do List → IDS (Identify, Discuss, Solve) → Conclude.

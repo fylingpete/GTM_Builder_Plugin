@@ -30,8 +30,19 @@ Append a decision entry to the append-only decision log.
 echo '{"type":"decision","date":"...","path":"...","decision":"...","reasoning":"...","reverse_if":"..."}' >> .founder-os/decisions_learnings.jsonl
 ```
 
-6. Confirm to the user:
+6. **Dual-write to mem0 (long-term memory).** If the `chief-charlie` MCP tools are available this session (load via ToolSearch if not yet loaded — see `CLAUDE.md` → "Long-term memory"), call:
+
+   ```
+   add_memory(
+     content="Decision ({path}, {date}): {decision}. Reasoning: {reasoning}. Reverse if: {reverse_if}.",
+     category="decision"
+   )
+   ```
+
+   If the tools are unavailable (user not logged in via MCP), skip silently — the local JSONL is still the source of truth.
+
+7. Confirm to the user:
 
    > Logged. Decision-Counter dieses Quartal: {count}. Soll ich dir den Eintrag nochmal vorlesen?
 
-7. **Important:** This is an append-only log. Never read it and rewrite the whole file. Only append new lines.
+8. **Important:** This is an append-only log. Never read it and rewrite the whole file. Only append new lines.
