@@ -1,4 +1,4 @@
-# GMT Builder Plugin — Chief Charlie for Claude Cowork
+# Chief Charlie Cowork Plugin
 
 A Claude Cowork (and Claude Code) plugin that turns Claude into **Chief Charlie**, a Founder Operating System.
 
@@ -9,7 +9,7 @@ Chief Charlie guides a founder through the right phase of their company — **PM
 This repository is a **marketplace** containing one plugin:
 
 ```
-GMT_Builder_Plugin/
+Chief_Charlie_Cowork_Plugin/
 ├── .claude-plugin/marketplace.json    # Lists the chief-charlie-v2 plugin
 └── chief-charlie-v2/                  # The plugin itself
     ├── .claude-plugin/plugin.json
@@ -27,16 +27,30 @@ GMT_Builder_Plugin/
 
 1. Open Claude Cowork → click **Customize** in the left sidebar
 2. Click **Add plugin** → select **GitHub**
-3. Enter: `fylingpete/GMT_Builder_Plugin`
+3. Enter: `fylingpete/Chief_Charlie_Cowork_Plugin`
 4. Install the `chief-charlie-v2` plugin
 
 ### From Claude Code (CLI)
 
 ```bash
-/plugin marketplace add fylingpete/GMT_Builder_Plugin
-/plugin install chief-charlie-v2@gmt-builder
+/plugin marketplace add fylingpete/Chief_Charlie_Cowork_Plugin
+/plugin install chief-charlie-v2@chief-charlie
 /reload-plugins
 ```
+
+### Updating
+
+Claude Cowork / Claude Code caches the marketplace listing and does NOT auto-refresh — when a new version ships, the in-app "Update" button stays greyed until the cache is invalidated.
+
+To pull the latest version:
+
+```bash
+/plugin marketplace update chief-charlie   # forces a fresh fetch from GitHub
+/plugin update chief-charlie-v2@chief-charlie
+/reload-plugins
+```
+
+If the CLI commands aren't exposed in Cowork's UI, remove and re-add the marketplace via the "Add marketplace" dialog — same effect.
 
 ## First run
 
