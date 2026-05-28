@@ -31,7 +31,7 @@
             "type": "command",
             "command": "${CLAUDE_PLUGIN_ROOT}/hooks/sync-file-probe.sh",
             "timeout": 5,
-            "async": true
+            "async": false
           }
         ]
       }
