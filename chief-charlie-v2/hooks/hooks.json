@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/sync-file-probe.sh",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks/sync-file.sh",
             "timeout": 5,
             "async": false
           }
